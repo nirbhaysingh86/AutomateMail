@@ -1,6 +1,7 @@
 ﻿using AutomateMail.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PMMC.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -40,17 +41,18 @@ namespace AutomateMail.Controllers
         }
         [HttpPost]
         [Route("saveattachmentdata")]
-        public async Task<string> SaveAttachmentData()
+        public async Task<Response> SaveAttachmentData()
         {
             string result = string.Empty;
+            Response response = new Response();
             using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
             {
                 string str = await reader.ReadToEndAsync();
-                result = OracleDatabase.SaveAttachmentData(str);
+                response.status = OracleDatabase.SaveAttachmentData(str);
             }
             DeleteAttachment.Delete();
-            var attachmentList = Task.Run(() => result).ConfigureAwait(false);
-            return await attachmentList;
+            var responseResult = Task.Run(() => response).ConfigureAwait(false);
+            return await responseResult;
         }
 
     }

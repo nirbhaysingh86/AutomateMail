@@ -41,7 +41,7 @@ export class ReadAttachmentDataComponent implements OnInit {
   
   saveAttachmentData() {
     this.httpClientMailService.saveAttachmentContent(this.attachmentList).subscribe(result => {
-      alert(result);
+      this.statusText=result;
     });
   }
 }
