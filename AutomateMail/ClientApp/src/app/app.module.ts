@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
 import { ReadAttachmentDataComponent } from './read-attachments-data/read-attachments-data.component';
 
 @NgModule({
@@ -15,7 +14,6 @@ import { ReadAttachmentDataComponent } from './read-attachments-data/read-attach
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
     ReadAttachmentDataComponent
   ],
   imports: [
@@ -24,8 +22,7 @@ import { ReadAttachmentDataComponent } from './read-attachments-data/read-attach
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: ReadAttachmentDataComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: ReadAttachmentDataComponent },
+      { path: 'read-attachment', component: ReadAttachmentDataComponent },
     ])
   ],
   providers: [],

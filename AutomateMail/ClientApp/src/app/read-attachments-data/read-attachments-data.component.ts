@@ -28,7 +28,9 @@ export class ReadAttachmentDataComponent implements OnInit {
       .subscribe(() => {
         this.httpClientMailService.getDownloadAttachment().subscribe(data => {
           this.attachmentList = data;
-          this.saveAttachmentData();
+          if (!(this.attachmentList && Object.keys(this.attachmentList).length === 0 && Object.getPrototypeOf(this.attachmentList) === Object.prototype)) {
+            this.saveAttachmentData();
+          }
         });
       });
   }
