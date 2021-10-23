@@ -42,11 +42,12 @@ namespace AutomateMail.Controllers
         [Route("saveattachmentdata")]
         public async Task<string> SaveAttachmentData()
         {
+            string result = string.Empty;
             using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
             {
                 string str = await reader.ReadToEndAsync();
+                result = OracleDatabase.SaveAttachmentData(str);
             }
-           string result= OracleDatabase.SaveAttachmentData();
             DeleteAttachment.Delete();
             var attachmentList = Task.Run(() => result).ConfigureAwait(false);
             return await attachmentList;

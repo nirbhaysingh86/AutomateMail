@@ -110,12 +110,7 @@ namespace AutomateMail
                     foreach (var uniqueId in results.UniqueIds)
                     {
                         var message = inbox.GetMessage(uniqueId);
-
-                        //messages.Add(message.HtmlBody);
-
-                        //Mark message as read
-                        //inbox.AddFlags(uniqueId, MessageFlags.Seen, true);
-
+                         
                         foreach (var attachment in message.Attachments)
                         {
                             var fileName = attachment.ContentDisposition?.FileName ?? attachment.ContentType.Name;
@@ -163,7 +158,8 @@ namespace AutomateMail
                             }
 
                         }
-
+                        //Mark message as read
+                        inbox.AddFlags(uniqueId, MessageFlags.Seen, true);
                     }
 
                     client.Disconnect(true);
