@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutomateMail.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections;
@@ -45,8 +46,9 @@ namespace AutomateMail.Controllers
             {
                 string str = await reader.ReadToEndAsync();
             }
+           string result= OracleDatabase.SaveAttachmentData();
             DeleteAttachment.Delete();
-            var attachmentList = Task.Run(() => "OK").ConfigureAwait(false);
+            var attachmentList = Task.Run(() => result).ConfigureAwait(false);
             return await attachmentList;
         }
 
