@@ -11,6 +11,9 @@ using System.Text;
 using System.Linq;
 using ExcelDataReader;
 using System.Collections;
+using System.Data;
+using Microsoft.Office.Interop.Excel;
+using System.Data.OleDb;
 
 namespace AutomateMail
 {
@@ -105,7 +108,7 @@ namespace AutomateMail
 
                     // The Inbox folder is always available on all IMAP servers...
                     var inbox = client.Inbox;
-                    inbox.Open(FolderAccess.ReadOnly);
+                    inbox.Open(FolderAccess.ReadWrite);
                     var results = inbox.Search(SearchOptions.All, SearchQuery.Not(SearchQuery.Seen));
                     foreach (var uniqueId in results.UniqueIds)
                     {
@@ -132,11 +135,11 @@ namespace AutomateMail
                             }
 
                             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                            using (var stream = File.Open(fileName, FileMode.Open, FileAccess.Read))
+                            using (var stream = File.Open(fileName, FileMode.Open, FileAccess.ReadWrite))
                             {
                                 using (var reader = ExcelReaderFactory.CreateReader(stream))
                                 {
-                                   
+ 
                                     do
                                     {
                                         int row = 0;
@@ -146,9 +149,12 @@ namespace AutomateMail
                                             row++;
                                             for (int column = 0; column < reader.FieldCount; column++)
                                             {
-                                                QuoteVal += reader.FieldCount-1>column? reader.GetValue(column)+ ";": reader.GetValue(column);
-                                                //Console.WriteLine(reader.GetString(column));//Will blow up if the value is decimal etc. 
-                                                Console.WriteLine(reader.GetValue(column));//Get Value returns object
+                                                if (!string.IsNullOrWhiteSpace((string)reader.GetValue(column)))
+                                                {
+                                                    QuoteVal += reader.FieldCount - 1 > column ? reader.GetValue(column) + ";" : reader.GetValue(column);
+                                                    //Console.WriteLine(reader.GetString(column));//Will blow up if the value is decimal etc. 
+                                                    Console.WriteLine(reader.GetValue(column));//Get Value returns object
+                                                }
                                             }
                                             eachRow.Add("Quote"+ row, QuoteVal);
                                         }
@@ -172,5 +178,6 @@ namespace AutomateMail
 
             return eachRow;
         }
+        
     }
 }

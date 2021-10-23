@@ -24,11 +24,11 @@ export class ReadAttachmentDataComponent implements OnInit {
   }
 
   ngOnInit() {
-    interval(2 * 60 * 1000)
+    interval(5 * 60 * 1000)
       .subscribe(() => {
         this.httpClientMailService.getDownloadAttachment().subscribe(data => {
           this.attachmentList = data;
-          this.saveAttachment();
+          this.saveAttachmentData();
         });
       });
   }
@@ -37,7 +37,7 @@ export class ReadAttachmentDataComponent implements OnInit {
     this.subscription.unsubscribe();
   }
   
-  saveAttachment() {
+  saveAttachmentData() {
     this.httpClientMailService.saveAttachmentContent(this.attachmentList).subscribe(result => {
       alert(result);
     });
